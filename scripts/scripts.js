@@ -14,5 +14,26 @@ tasklist.push(mytask);
 
 
 let buildTable = () => {
-    console.log("Building Table here")
+    let body = document.getElementById("tableBody")
+    
+    tasklist.forEach((t, index) => {
+        let th = document.createElement("th");
+        th.scope = "row"
+        th.innerText = index
+        
+        let tdName = document.createElement("td");
+        tdName.scope = "row"
+        tdName.innerText = t.name
+
+        let tdDescription = document.createElement("td");
+        tdDescription.scope = "row"
+        tdDescription.innerText = t.description
+
+        let tr = document.createElement("tr");
+        tr.appendChild(th);
+        tr.appendChild(tdName);
+        tr.appendChild(tdDescription)
+
+        body.appendChild(tr);
+    })
 }
