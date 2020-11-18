@@ -8,8 +8,10 @@ class task{
 }
 
 let tasklist = [];
-let mytask = new task("Example", "Test", 0, 0);
-tasklist.push(mytask);
+tasklist.push(new task("Example0", "Test", 0, 0));
+tasklist.push(new task("Example1", "Test", 0, 0));
+tasklist.push(new task("Example2", "Test", 0, 0));
+tasklist.push(new task("Example3", "Test", 0, 0));
 
 
 
