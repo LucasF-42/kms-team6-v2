@@ -31,6 +31,7 @@ let buildTable = () => {
         tdDescription.scope = "row"
         tdDescription.innerText = t.description
 
+
         let tr = document.createElement("tr");
         tr.appendChild(th);
         tr.appendChild(tdName);
