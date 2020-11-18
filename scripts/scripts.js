@@ -21,7 +21,7 @@ let buildTable = () => {
     tasklist.forEach((t, index) => {
         let th = document.createElement("th");
         th.scope = "row";
-        th.innerText = index;
+        th.innerText = index.toString();
         
         let tdName = document.createElement("td");
         tdName.scope = "row";
