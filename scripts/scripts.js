@@ -7,6 +7,12 @@ class task{
     }
 }
 
-let tasklist;
+let tasklist = [];
 let mytask = new task("Example", "Test", 0, 0);
 tasklist.push(mytask);
+
+
+
+let buildTable = () => {
+    console.log("Building Table here")
+}
