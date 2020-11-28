@@ -17,6 +17,8 @@ tasklist.push(new task("Example3", "Test", 0, 0));
 
 let buildTable = () => {
     let body = document.getElementById("tableBody");
+    
+    body.innerHTML = "";
 
     tasklist.forEach((t, index) => {
         let th = document.createElement("th");
@@ -81,6 +83,8 @@ let buildTable = () => {
 
         body.appendChild(tr);
     })
+
+    appendCreateTaskRow(body);
 }
 
 const setUpEditModal = (idx, tableRow) => {
@@ -137,4 +141,68 @@ const setUpEditModal = (idx, tableRow) => {
     }
 
     modBod.appendChild(modBodForm);
+}
+
+const appendCreateTaskRow = tableBody => {
+    const tr = document.createElement("tr");
+
+    const th = document.createElement("th");
+    th.scope = "row";
+    th.innerText = "*new*";
+    tr.appendChild(th);
+
+    {
+        const inputName = document.createElement("input");
+        inputName.type = "text";
+        inputName.id = "inputName";
+        inputName.classList.add("form-control");
+        inputName.placeholder = "Name";
+
+        const tdName = document.createElement("td");
+        tdName.scope = "row";
+        tdName.appendChild(inputName);
+
+        tr.appendChild(tdName);
+    }
+
+    {
+        const inputDescription = document.createElement("input");
+        inputDescription.type = "text";
+        inputDescription.id = "inputDescription";
+        inputDescription.classList.add("form-control");
+        inputDescription.placeholder = "Description";
+
+        const tdDescription = document.createElement("td");
+        tdDescription.scope = "row";
+        tdDescription.appendChild(inputDescription);
+        
+        tr.appendChild(tdDescription);
+    }
+
+    {
+        const addIcon = document.createElement("i");
+        addIcon.classList.add("fas", "fa-plus");
+        
+        const buttonAdd = document.createElement("button");
+        buttonAdd.type = "button";
+        buttonAdd.classList.add("btn", "btn-primary", "mr-4");
+        buttonAdd.onclick = () => {
+            const taskName = document.getElementById("inputName").value;
+            const taskDescription = document.getElementById("inputDescription").value;
+
+            tasklist.push(new task(taskName, taskDescription, 0, 0));
+
+            buildTable();
+        }
+        buttonAdd.appendChild(addIcon);
+
+        const tdFunction = document.createElement("td");
+        tdFunction.scope = "row";
+        tdFunction.classList.add("align-middle");
+        tdFunction.appendChild(buttonAdd);
+
+        tr.appendChild(tdFunction);
+    }
+
+    tableBody.appendChild(tr);
 }
