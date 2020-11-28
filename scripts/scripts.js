@@ -13,19 +13,17 @@ tasklist.push(new task("Example1", "Test", 0, 0));
 tasklist.push(new task("Example2", "Test", 0, 0));
 tasklist.push(new task("Example3", "Test", 0, 0));
 
-
-
-let buildTable = () => {
+const buildSpecificTable = (table) => {
     let body = document.getElementById("tableBody");
-    
+
     body.innerHTML = "";
 
-    tasklist.forEach((t, index) => {
+    table.forEach((t, index) => {
         let th = document.createElement("th");
         th.setAttribute("class", "align-middle");
         th.scope = "row";
         th.innerText = index.toString();
-        
+
         let tdName = document.createElement("td");
         tdName.setAttribute("class", "align-middle");
         tdName.scope = "row";
@@ -82,9 +80,12 @@ let buildTable = () => {
         };
 
         body.appendChild(tr);
-    })
-
+    });
     appendCreateTaskRow(body);
+}
+
+let buildTable = () => {
+    buildSpecificTable(tasklist);
 }
 
 const setUpEditModal = (idx, tableRow) => {
@@ -206,3 +207,16 @@ const appendCreateTaskRow = tableBody => {
 
     tableBody.appendChild(tr);
 }
+
+window.onload = () => {
+    let navSearchField = document.getElementById("navsearchform");
+    navSearchField.oninput = () => {
+        let searchWord = navSearchField.value.toLowerCase();
+        let filteredTaskList = tasklist.filter((val, idx, arr) => {
+            if(searchWord==="") return true;
+            return val.name.toLowerCase().includes(searchWord);
+        });
+        buildSpecificTable(filteredTaskList);
+    }
+    buildTable();
+};
