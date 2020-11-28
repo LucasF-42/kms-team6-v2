@@ -46,6 +46,25 @@
         </tbody>
       </table>
 
+    <div class="modal" id="editMod">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Task</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body" id="modBody">
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" id="modCancel" data-dismiss="modal"><i class="fas fa-times mr-2"></i></button>
+                    <button type="button" class="btn btn-success" id="modSubmit" data-dismiss="modal"><i class="fas fa-check"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
       <script>
           buildTable();
       </script>

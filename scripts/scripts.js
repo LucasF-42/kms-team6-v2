@@ -53,6 +53,8 @@ let buildTable = () => {
         let tdEdit = document.createElement("button");
         tdEdit.setAttribute("type", "button");
         tdEdit.setAttribute("class", "btn btn-secondary mr-4");
+        tdEdit.setAttribute("data-toggle", "modal");
+        tdEdit.setAttribute("data-target", "#editMod");
         let editIcon = document.createElement("i");
         editIcon.setAttribute("class", "fas fa-edit");
         tdEdit.appendChild(editIcon);
@@ -73,6 +75,66 @@ let buildTable = () => {
         tr.appendChild(tdDescription);
         tr.appendChild(tdBtnGrp);
 
+        tdEdit.onclick = () => {
+            setUpEditModal(index, tr);
+        };
+
         body.appendChild(tr);
     })
+}
+
+const setUpEditModal = (idx, tableRow) => {
+    const modBod = document.getElementById("modBody");
+    modBod.innerHTML = "";
+    const modBodForm = document.createElement("form");
+    let name, desc;
+
+    {
+        // Create taskName
+        const nameGrp =  document.createElement("div");
+        nameGrp.setAttribute("class", "form-group ");
+
+        const nameL = document.createElement("label");
+        nameL.setAttribute("for", "editName");
+        nameL.innerHTML = "Task:"
+
+        name = document.createElement("input");
+        name.setAttribute("type", "text");
+        name.setAttribute("class", "form-control");
+        name.setAttribute("id", "editName");
+        name.value = tasklist[idx].name;
+
+        nameGrp.appendChild(nameL);
+        nameGrp.appendChild(name);
+        modBodForm.appendChild(nameGrp);
+    }
+    {
+        //Create task description
+        const descGrp = document.createElement("div");
+        descGrp.setAttribute("class", "form-group ");
+
+        const descL = document.createElement("label");
+        descL.setAttribute("for", "editDesc");
+        descL.innerHTML = "Description:"
+
+        desc = document.createElement("textarea");
+        desc.setAttribute("class", "form-control");
+        desc.setAttribute("id", "editDesc");
+        desc.setAttribute("rows", "4");
+        desc.value = tasklist[idx].description;
+
+        descGrp.appendChild(descL);
+        descGrp.appendChild(desc);
+        modBodForm.appendChild(descGrp);
+    }
+    const subBtn = document.getElementById("modSubmit");
+    subBtn.onclick = () => {
+        tasklist[idx].name = name.value;
+        tasklist[idx].description = desc.value;
+
+        tableRow.children.item(1).innerText = tasklist[idx].name;
+        tableRow.children.item(2).innerText = tasklist[idx].description;
+    }
+
+    modBod.appendChild(modBodForm);
 }
