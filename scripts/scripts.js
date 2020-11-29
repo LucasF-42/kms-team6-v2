@@ -24,10 +24,9 @@ const buildSpecificTable = (table) => {
         th.scope = "row";
         th.innerText = index.toString();
 
-        //TODO get rid of the deprecation
         let tdPrior = document.createElement("td");
         tdPrior.setAttribute("class", "align-middle");
-        tdPrior.bgColor=determineColour(t.status);
+        tdPrior.style.backgroundColor=determineColour(t.status);
         tdPrior.innerText=t.status;
         tdPrior.scope = "row";
 
@@ -72,7 +71,7 @@ const buildSpecificTable = (table) => {
         let tdCheck = document.createElement("button");
         tdCheck.setAttribute("type", "button");
         tdCheck.setAttribute("class", "btn btn-success");
-        tdCheck.setAttribute("data-target", "#checkThrough")
+        let isChecked=0;
         let checkIcon = document.createElement("i");
         checkIcon.setAttribute("class", "fas fa-check");
         tdCheck.appendChild(checkIcon);
@@ -88,10 +87,25 @@ const buildSpecificTable = (table) => {
         tdEdit.onclick = () => {
             setUpEditModal(index, tr);
         };
-        //TODO this
+        //This code is so bad, it NEEDS to be refactored later
         tdCheck.onclick = () => {
-            var element = document.getElementById(tr.id);
-            element.classList.add("checkThrough");
+            if(!isChecked){
+                tr.style.textDecoration="line-through"
+                tr.style.color="grey"
+                tdPrior.style.backgroundColor="grey"
+                tdPrior.innerText="";
+                checkIcon.setAttribute("class", "fas fa-undo-alt");
+
+                isChecked=1;
+            }else{
+                tr.style.textDecoration="";
+                tr.style.color="black";
+                tdPrior.style.backgroundColor=determineColour(t.status);
+                tdPrior.innerText=t.status;
+                checkIcon.setAttribute("class", "fas fa-check");
+                isChecked=0;
+            }
+
         }
 
         body.appendChild(tr);
@@ -117,6 +131,7 @@ function determineColour(priority){
             return "#AF0F19"
         case 5: //critical
             return "#930717"
+
     }
 }
 
