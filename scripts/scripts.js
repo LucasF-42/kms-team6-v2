@@ -64,6 +64,7 @@ const buildSpecificTable = (table) => {
         let tdCheck = document.createElement("button");
         tdCheck.setAttribute("type", "button");
         tdCheck.setAttribute("class", "btn btn-success");
+        tdCheck.setAttribute("data-target", "#checkThrough")
         let checkIcon = document.createElement("i");
         checkIcon.setAttribute("class", "fas fa-check");
         tdCheck.appendChild(checkIcon);
@@ -78,6 +79,10 @@ const buildSpecificTable = (table) => {
         tdEdit.onclick = () => {
             setUpEditModal(index, tr);
         };
+        tdCheck.onclick = () => {
+            var element = document.getElementById(tr.id);
+            element.classList.add("checkThrough");
+        }
 
         body.appendChild(tr);
     });
@@ -87,6 +92,7 @@ const buildSpecificTable = (table) => {
 let buildTable = () => {
     buildSpecificTable(tasklist);
 }
+
 
 const setUpEditModal = (idx, tableRow) => {
     const modBod = document.getElementById("modBody");
