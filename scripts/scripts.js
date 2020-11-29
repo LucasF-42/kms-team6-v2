@@ -2,16 +2,16 @@ class task{
     constructor(name, description, category, status) {
         this.name= name;
         this.description = description;
-        this.category = status;
+        this.category = category;
         this.status=status;
     }
 }
 
 let tasklist = [];
 tasklist.push(new task("Example0", "Test", 0, 0));
-tasklist.push(new task("Example1", "Test", 0, 0));
-tasklist.push(new task("Example2", "Test", 0, 0));
-tasklist.push(new task("Example3", "Test", 0, 0));
+tasklist.push(new task("Example1", "Test", 0, 2));
+tasklist.push(new task("Example2", "Test", 0, 3));
+tasklist.push(new task("Example3", "Test", 0, 5));
 
 const buildSpecificTable = (table) => {
     let body = document.getElementById("tableBody");
@@ -23,6 +23,14 @@ const buildSpecificTable = (table) => {
         th.setAttribute("class", "align-middle");
         th.scope = "row";
         th.innerText = index.toString();
+
+        //TODO get rid of the deprecation
+        let tdPrior = document.createElement("td");
+        tdPrior.setAttribute("class", "align-middle");
+        tdPrior.bgColor=determineColour(t.status);
+        tdPrior.innerText=t.status;
+        tdPrior.scope = "row";
+
 
         let tdName = document.createElement("td");
         tdName.setAttribute("class", "align-middle");
@@ -72,6 +80,7 @@ const buildSpecificTable = (table) => {
 
         let tr = document.createElement("tr");
         tr.appendChild(th);
+        tr.appendChild(tdPrior);
         tr.appendChild(tdName);
         tr.appendChild(tdDescription);
         tr.appendChild(tdBtnGrp);
@@ -79,6 +88,7 @@ const buildSpecificTable = (table) => {
         tdEdit.onclick = () => {
             setUpEditModal(index, tr);
         };
+        //TODO this
         tdCheck.onclick = () => {
             var element = document.getElementById(tr.id);
             element.classList.add("checkThrough");
@@ -93,6 +103,22 @@ let buildTable = () => {
     buildSpecificTable(tasklist);
 }
 
+function determineColour(priority){
+    switch (priority){
+        case 0: //very low
+            return "#494CA2";
+        case 1: //low
+            return "#6F975C"
+        case 2: //medium
+            return "#D2D462";
+        case 3: //high
+            return "#FF6361"
+        case 4: //very high
+            return "#AF0F19"
+        case 5: //critical
+            return "#930717"
+    }
+}
 
 const setUpEditModal = (idx, tableRow) => {
     const modBod = document.getElementById("modBody");
@@ -213,7 +239,7 @@ const appendCreateTaskRow = tableBody => {
 
     tableBody.appendChild(tr);
 }
-
+//TODO remove idx & arr?
 window.onload = () => {
     let navSearchField = document.getElementById("navsearchform");
     navSearchField.oninput = () => {
