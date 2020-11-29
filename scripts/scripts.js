@@ -1,17 +1,18 @@
 class task{
-    constructor(name, description, category, status) {
+    constructor(name, description, category, priority, isDone) {
         this.name= name;
         this.description = description;
         this.category = category;
-        this.status=status;
+        this.priority=priority;
+        this.isDone=isDone;
     }
 }
 
 let tasklist = [];
-tasklist.push(new task("Example0", "Test", 0, 0));
-tasklist.push(new task("Example1", "Test", 0, 2));
-tasklist.push(new task("Example2", "Test", 0, 3));
-tasklist.push(new task("Example3", "Test", 0, 5));
+tasklist.push(new task("Example0", "Test", 0, 0, 0));
+tasklist.push(new task("Example1", "Test", 0, 2, 0));
+tasklist.push(new task("Example2", "Test", 0, 3, 0));
+tasklist.push(new task("Example3", "Test", 0, 5, 0));
 
 const buildSpecificTable = (table) => {
     let body = document.getElementById("tableBody");
@@ -26,8 +27,8 @@ const buildSpecificTable = (table) => {
 
         let tdPrior = document.createElement("td");
         tdPrior.setAttribute("class", "align-middle");
-        tdPrior.style.backgroundColor=determineColour(t.status);
-        tdPrior.innerText=t.status;
+        tdPrior.style.backgroundColor=determineColour(t.priority);
+        tdPrior.innerText=t.priority;
         tdPrior.scope = "row";
 
 
@@ -71,7 +72,6 @@ const buildSpecificTable = (table) => {
         let tdCheck = document.createElement("button");
         tdCheck.setAttribute("type", "button");
         tdCheck.setAttribute("class", "btn btn-success");
-        let isChecked=0;
         let checkIcon = document.createElement("i");
         checkIcon.setAttribute("class", "fas fa-check");
         tdCheck.appendChild(checkIcon);
@@ -88,26 +88,39 @@ const buildSpecificTable = (table) => {
             setUpEditModal(index, tr);
         };
         //This code is so bad, it NEEDS to be refactored later
+        //Reacts as soon as the button is pressed. Changes stuff for the current table iteration
         tdCheck.onclick = () => {
-            if(!isChecked){
+            if(!t.isDone){
                 tr.style.textDecoration="line-through"
                 tr.style.color="grey"
                 tdPrior.style.backgroundColor="grey"
                 tdPrior.innerText="";
                 checkIcon.setAttribute("class", "fas fa-undo-alt");
-
-                isChecked=1;
+                t.isDone=1;
             }else{
                 tr.style.textDecoration="";
                 tr.style.color="black";
-                tdPrior.style.backgroundColor=determineColour(t.status);
-                tdPrior.innerText=t.status;
+                tdPrior.style.backgroundColor=determineColour(t.priority);
+                tdPrior.innerText=t.priority;
                 checkIcon.setAttribute("class", "fas fa-check");
-                isChecked=0;
+                t.isDone=0;
             }
-
         }
-
+        //Only really applies whenever the table is newly build
+        //Resource dump - Exists since a new table item rebuilds the whole table
+        if(t.isDone){
+            tr.style.textDecoration="line-through"
+            tr.style.color="grey"
+            tdPrior.style.backgroundColor="grey"
+            tdPrior.innerText="";
+            checkIcon.setAttribute("class", "fas fa-undo-alt");
+        }else{
+            tr.style.textDecoration="";
+            tr.style.color="black";
+            tdPrior.style.backgroundColor=determineColour(t.priority);
+            tdPrior.innerText=t.priority;
+            checkIcon.setAttribute("class", "fas fa-check");
+        }
         body.appendChild(tr);
     });
     appendCreateTaskRow(body);
