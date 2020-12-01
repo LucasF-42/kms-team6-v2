@@ -8,6 +8,8 @@ class task{
     }
 }
 
+const priorities = ["lowest", "low", "medium", "high", "very high", "critical"];
+
 let tasklist = [];
 tasklist.push(new task("Example0", "Test", 0, 0, 0));
 tasklist.push(new task("Example1", "Test", 0, 2, 0));
@@ -101,7 +103,7 @@ const buildSpecificTable = (table) => {
                 tr.style.textDecoration="";
                 tr.style.color="black";
                 tdPrior.style.backgroundColor=determineColour(t.priority);
-                tdPrior.innerText=t.priority;
+                tdPrior.innerText=priorities[t.priority];
                 checkIcon.setAttribute("class", "fas fa-check");
                 t.isDone=0;
             }
@@ -118,7 +120,7 @@ const buildSpecificTable = (table) => {
             tr.style.textDecoration="";
             tr.style.color="black";
             tdPrior.style.backgroundColor=determineColour(t.priority);
-            tdPrior.innerText=t.priority;
+            tdPrior.innerText=priorities[t.priority];
             checkIcon.setAttribute("class", "fas fa-check");
         }
         body.appendChild(tr);
@@ -152,7 +154,7 @@ const setUpEditModal = (idx, tableRow) => {
     const modBod = document.getElementById("modBody");
     modBod.innerHTML = "";
     const modBodForm = document.createElement("form");
-    let name, desc;
+    let name, desc, prio;
 
     {
         // Create taskName
@@ -163,6 +165,7 @@ const setUpEditModal = (idx, tableRow) => {
         nameL.setAttribute("for", "editName");
         nameL.innerHTML = "Task:"
 
+
         name = document.createElement("input");
         name.setAttribute("type", "text");
         name.setAttribute("class", "form-control");
@@ -172,6 +175,13 @@ const setUpEditModal = (idx, tableRow) => {
         nameGrp.appendChild(nameL);
         nameGrp.appendChild(name);
         modBodForm.appendChild(nameGrp);
+    }
+    {
+        // Create Priority editor
+        const prioDiv = createPriorityDropDown("editPrioSel", true);
+        prio = prioDiv.childNodes.item(1);
+        prio.selectedIndex = tasklist[idx].priority;
+        modBodForm.appendChild(prioDiv);
     }
     {
         //Create task description
@@ -196,9 +206,12 @@ const setUpEditModal = (idx, tableRow) => {
     subBtn.onclick = () => {
         tasklist[idx].name = name.value;
         tasklist[idx].description = desc.value;
+        tasklist[idx].priority = prio.selectedIndex;
 
-        tableRow.children.item(1).innerText = tasklist[idx].name;
-        tableRow.children.item(2).innerText = tasklist[idx].description;
+        tableRow.children.item(2).innerText = tasklist[idx].name;
+        tableRow.children.item(3).innerText = tasklist[idx].description;
+        tableRow.children.item(1).innerText = priorities[tasklist[idx].priority];
+        tableRow.children.item(1).style.backgroundColor = determineColour(tasklist[idx]);
     }
 
     modBod.appendChild(modBodForm);
@@ -211,6 +224,15 @@ const appendCreateTaskRow = tableBody => {
     th.scope = "row";
     th.innerText = "*new*";
     tr.appendChild(th);
+
+    {
+        const dropdown = createPriorityDropDown("prioSel", false);
+        const tdPrio = document.createElement("td");
+        tdPrio.scope = "row";
+        tdPrio.appendChild(dropdown);
+
+        tr.appendChild(tdPrio);
+    }
 
     {
         const inputName = document.createElement("input");
@@ -250,8 +272,9 @@ const appendCreateTaskRow = tableBody => {
         buttonAdd.onclick = () => {
             const taskName = document.getElementById("inputName").value;
             const taskDescription = document.getElementById("inputDescription").value;
+            const taskPrio = document.getElementById("prioSel").selectedIndex;
 
-            tasklist.push(new task(taskName, taskDescription, 0, 0));
+            tasklist.push(new task(taskName, taskDescription, 0, taskPrio, 0));
 
             buildTable();
         }
@@ -267,6 +290,29 @@ const appendCreateTaskRow = tableBody => {
 
     tableBody.appendChild(tr);
 }
+
+const createPriorityDropDown = (id, doLabel) => {
+    const dropdown = document.createElement("div");
+    dropdown.setAttribute("class", "form-group form-inline");
+    if(doLabel) {
+        const lbl = document.createElement("label");
+        lbl.setAttribute("for", "id")
+        lbl.innerText = "Priority:";
+        dropdown.appendChild(lbl);
+    }
+    const dSel = document.createElement("select");
+    dSel.setAttribute("class", "form-control");
+    dSel.setAttribute("id", id);
+    dropdown.appendChild(dSel);
+    priorities.forEach((elem) => {
+        let opt = document.createElement("option");
+        opt.innerText = elem;
+        dSel.appendChild(opt);
+    });
+    dSel.selectedIndex = 0;
+    return dropdown;
+};
+
 //TODO remove idx & arr?
 window.onload = () => {
     let navSearchField = document.getElementById("navsearchform");
