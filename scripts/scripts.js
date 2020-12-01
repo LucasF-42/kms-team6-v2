@@ -211,7 +211,7 @@ const setUpEditModal = (idx, tableRow) => {
         tableRow.children.item(2).innerText = tasklist[idx].name;
         tableRow.children.item(3).innerText = tasklist[idx].description;
         tableRow.children.item(1).innerText = priorities[tasklist[idx].priority];
-        tableRow.children.item(1).style.backgroundColor = determineColour(tasklist[idx]);
+        tableRow.children.item(1).style.backgroundColor = determineColour(tasklist[idx].priority);
     }
 
     modBod.appendChild(modBodForm);
