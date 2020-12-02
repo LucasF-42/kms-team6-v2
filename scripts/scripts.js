@@ -51,6 +51,10 @@ const buildSpecificTable = (table) => {
 
 
         let tdDel = document.createElement("button");
+        tdDel.onclick = () => {
+            tasklist.splice(index, 1);
+            buildTable();
+        }
         tdDel.setAttribute("type", "button");
         tdDel.setAttribute("class", "btn btn-danger mr-2");
         let delIcon = document.createElement("i");
