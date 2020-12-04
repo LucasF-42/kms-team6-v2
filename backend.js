@@ -1,3 +1,5 @@
+'esversion: 6'
+
 class Task {
     constructor(name, description, category, priority, isDone) {
         this.name = name;

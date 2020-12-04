@@ -1,3 +1,5 @@
+'esversion: 6'
+
 const backend = require('./backend');
 const Task = backend.Task;
 const priorities = backend.priorities;
@@ -83,9 +85,9 @@ const buildSpecificTable = (table) => {
         //Reacts as soon as the button is pressed. Changes stuff for the current table iteration
         tdCheck.onclick = () => {
             if(!t.isDone){
-                tr.style.textDecoration="line-through"
-                tr.style.color="grey"
-                tdPrior.style.backgroundColor="grey"
+                tr.style.textDecoration="line-through";
+                tr.style.color="grey";
+                tdPrior.style.backgroundColor="grey";
                 tdPrior.innerText="";
                 checkIcon.setAttribute("class", "fas fa-undo-alt");
                 t.isDone=1;
@@ -97,13 +99,13 @@ const buildSpecificTable = (table) => {
                 checkIcon.setAttribute("class", "fas fa-check");
                 t.isDone=0;
             }
-        }
+        };
         //Only really applies whenever the table is newly build
         //Resource dump - Exists since a new table item rebuilds the whole table
         if(t.isDone){
-            tr.style.textDecoration="line-through"
-            tr.style.color="grey"
-            tdPrior.style.backgroundColor="grey"
+            tr.style.textDecoration="line-through";
+            tr.style.color="grey";
+            tdPrior.style.backgroundColor="grey";
             tdPrior.innerText="";
             checkIcon.setAttribute("class", "fas fa-undo-alt");
         }else{
@@ -120,7 +122,7 @@ const buildSpecificTable = (table) => {
 
 let buildTable = () => {
     buildSpecificTable(backend.getTasks());
-}
+};
 
 function determineColour(priority){
     switch (priority){
@@ -131,11 +133,11 @@ function determineColour(priority){
         case 2: //medium
             return "#D2D462";
         case 3: //high
-            return "#FF6361"
+            return "#FF6361";
         case 4: //very high
-            return "#AF0F19"
+            return "#AF0F19";
         case 5: //critical
-            return "#930717"
+            return "#930717";
 
     }
 }
