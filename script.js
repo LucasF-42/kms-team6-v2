@@ -308,10 +308,7 @@ window.onload = () => {
     let navSearchField = document.getElementById("navsearchform");
     navSearchField.oninput = () => {
         let searchWord = navSearchField.value.toLowerCase();
-        let filteredTaskList = tasklist.filter((val, idx, arr) => {
-            if(searchWord==="") return true;
-            return val.name.toLowerCase().includes(searchWord);
-        });
+        const filteredTaskList = backend.search(searchWord);
         buildSpecificTable(filteredTaskList);
     }
     buildTable();

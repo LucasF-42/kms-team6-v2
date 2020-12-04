@@ -38,4 +38,11 @@ module.exports = {
     deleteTask: (index) => {
         taskList.splice(index, 1);
     },
+
+    search: (searchWord) => {
+        return taskList.filter(task => {
+            if(searchWord==="") return true;
+            return task.name.toLowerCase().includes(searchWord);
+        });
+    }
 }
