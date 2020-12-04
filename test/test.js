@@ -3,7 +3,6 @@
 const assert = require('assert');
 const backend = require('../backend');
 const Task = backend.Task;
-const priorities = backend.priorities;
 
 describe('Backend', function() {
   describe('#Task.constructor', function() {
@@ -23,4 +22,15 @@ describe('Backend', function() {
       assert.strictEqual(task.isDone, isDone);
     })
   });
+  describe('#createTask', function () {
+    it('', function () {
+      
+    })
+  })
+  describe('#getTask', function () {
+    
+  })
+  describe('#updateTask', function () {
+    
+  })
 });
