@@ -1,4 +1,4 @@
-'esversion: 6'
+'esversion: 6';
 
 class Task {
     constructor(name, description, category, priority, isDone) {

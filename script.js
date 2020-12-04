@@ -1,4 +1,4 @@
-'esversion: 6'
+'esversion: 6';
 
 const backend = require('./backend');
 const Task = backend.Task;
