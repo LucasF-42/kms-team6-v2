@@ -113,17 +113,7 @@ describe('Backend', function () {
             backend.createTask(task4);
         });
 
-        /*
-            - update changes only the changed field of a task
-            - update can change multiple fields of a task
-            - update does not change the order of the elements
-            - update does not change list size
-            - update leaves no holes in the list
-                -> make a test case where someone enters null or an undefined value?
-            - update can not be performed on an index that holds an undefined element
-                -> that one will break!
-         */
-        it('update effects only the field of a task that was changed', function () {
+        it('update affects only the field of a task that was changed', function () {
             const idx =1;
             let taskToCompareBy = comparisonList[idx];
             let updatedTasks = [
@@ -206,7 +196,7 @@ describe('Backend', function () {
                 assert.notStrictEqual(backend.getTasks()[i], undefined);
             }
         });
-       it('The offered argument has to be of type Task', function () {
+       it('the offered argument has to be of type Task', function () {
            let test = {
                name : "Test",
                description : "desc",
@@ -221,7 +211,7 @@ describe('Backend', function () {
                    `${(backend.getTasks()[i] === undefined) ? "Undefined element" : "Non Task-element"} in the list!`);
            }
        });
-       it('The given index has to be within the bounds of the list', function () {
+       it('the given index has to be within the bounds of the list', function () {
            const updatedTask = new Task("task1a", "desc", 1, 5, 0);
            const baseListSize = backend.getTasks().length;
            assert.ok(!(backend.updateTask(100, updatedTask)));
@@ -229,5 +219,80 @@ describe('Backend', function () {
            assert.ok(!(backend.updateTask(-1, updatedTask)));
            assert.strictEqual(backend.getTasks().length, baseListSize);
        });
+    });
+
+    /*
+            Searching for a string only returns tasks whose name includes the given string
+     */
+    describe('#Search for task', function () {
+        let taskSet = [
+            new Task("task1", "description9", 0, 1, 0),
+            new Task("task2", "description8", 0, 2, 0),
+            new Task("task3", "description7", 0, 3, 0),
+            new Task("task4", "description6", 0, 4, 0),
+            new Task("Aufgabe5", "Beschreibung5", 0, 5, 0)
+        ];
+        let backEndLength = backend.getTasks().length;
+
+        for (let i = 0; i < backEndLength; i++) {
+            backend.getTasks().pop();
+        }
+        for(let i = 0; i < taskSet.length; i++) {
+            backend.createTask(taskSet[i]);
+        }
+
+        it('searching for a string only returns tasks whose name includes the given string', function () {
+            let searchWords = ["1", "task", "Aufgabe", "noMatch", ""];
+            for(let i = 0; i < searchWords.length; i++) {
+                let filteredTasks = backend.search(searchWords[i]);
+                if(i === 3) {
+                    assert.strictEqual(filteredTasks.length, 0);
+                }
+                filteredTasks.forEach(t => {
+                    assert.ok(t.name.includes(searchWords[i]));
+                });
+            }
+        });
+        it('searching only refers to the "name" column', function () {
+            let searchWords = ["Beschreibung", "description", "9"];
+            for(let i = 0; i < searchWords.length; i++) {
+                let filteredTasks = backend.search(searchWords[i]);
+                if(backend.getTasks().map(t => t.name).map((prev, cur) => cur && prev, true)){
+                    filteredTasks.forEach(t => {
+                        assert.ok(t.name.includes(searchWords[i]));
+                    });
+                } else {
+                    assert.strictEqual(filteredTasks.length, 0);
+                }
+            }
+        });
+        it('searching is case-insensitive', function () {
+            let searchWords = ["TASK", "AUFGABE", "TaSk", "aufgAbe"];
+            for(let i = 0; i < searchWords; i++) {
+                backend.getTasks().forEach(t => assert.notStrictEqual(t.name, searchWords[i], "test setup is wrong!"));
+                let filteredTasks = backend.search(searchWords[i]);
+                assert.notStrictEqual(filteredTasks.length, 0);
+                filteredTasks.forEach(t => {
+                    assert.strictEqual(t.name.toLowerCase(), searchWords[i].toLowerCase());
+                });
+            }
+        });
+        it('searching does not change the backend-list length', function () {
+            let searchWord = "Aufgabe";
+            let lstLngBeforeSearch = backend.getTasks().length;
+            backend.search(searchWord);
+            assert.strictEqual(backend.getTasks().length, lstLngBeforeSearch);
+        });
+        it('searching does not change the order of the backend list ', function () {
+            let searchWords = ["", "task", "Aufgabe", "noMatch"];
+            for(let i = 0; i < searchWords.length; i++) {
+                let origList = backend.getTasks();
+                backend.search(searchWords[i]);
+                let afterSearch = backend.getTasks();
+                for(let tIdx = 0; tIdx < origList.length; tIdx++) {
+                    assert.strictEqual(afterSearch[i], origList[i]);
+                }
+            }
+        });
     });
 });
