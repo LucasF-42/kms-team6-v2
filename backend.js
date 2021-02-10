@@ -29,7 +29,15 @@ module.exports = {
     },
 
     updateTask: (index, newTask) => {
+        if(index < 0 || index > taskList.length) {
+            // TODO: How to handle that stuff?
+            return false;
+        }
+        if(!(newTask instanceof Task)) {
+            return false;
+        }
         taskList[index] = newTask;
+        return true;
     },
 
     deleteTask: (index) => {
