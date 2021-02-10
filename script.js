@@ -1,17 +1,8 @@
-class task{
-    constructor(name, description, category, status) {
-        this.name= name;
-        this.description = description;
-        this.category = status;
-        this.status=status;
-    }
-}
+'esversion: 6';
 
-let tasklist = [];
-tasklist.push(new task("Example0", "Test", 0, 0));
-tasklist.push(new task("Example1", "Test", 0, 0));
-tasklist.push(new task("Example2", "Test", 0, 0));
-tasklist.push(new task("Example3", "Test", 0, 0));
+const backend = require('./backend');
+const Task = backend.Task;
+const priorities = backend.priorities;
 
 const buildSpecificTable = (table) => {
     let body = document.getElementById("tableBody");
@@ -23,6 +14,13 @@ const buildSpecificTable = (table) => {
         th.setAttribute("class", "align-middle");
         th.scope = "row";
         th.innerText = index.toString();
+
+        let tdPrior = document.createElement("td");
+        tdPrior.setAttribute("class", "align-middle");
+        tdPrior.style.backgroundColor=determineColour(t.priority);
+        tdPrior.innerText=t.priority;
+        tdPrior.scope = "row";
+
 
         let tdName = document.createElement("td");
         tdName.setAttribute("class", "align-middle");
@@ -42,7 +40,7 @@ const buildSpecificTable = (table) => {
 
         let tdDel = document.createElement("button");
         tdDel.onclick = () => {
-            tasklist.splice(index, 1);
+            backend.deleteTask(index);
             buildTable();
         }
         tdDel.setAttribute("type", "button");
@@ -75,28 +73,80 @@ const buildSpecificTable = (table) => {
 
         let tr = document.createElement("tr");
         tr.appendChild(th);
+        tr.appendChild(tdPrior);
         tr.appendChild(tdName);
         tr.appendChild(tdDescription);
         tr.appendChild(tdBtnGrp);
 
         tdEdit.onclick = () => {
-            setUpEditModal(index, tr);
+            setUpEditModal(table[index], tr);
         };
-
+        //This code is so bad, it NEEDS to be refactored later
+        //Reacts as soon as the button is pressed. Changes stuff for the current table iteration
+        tdCheck.onclick = () => {
+            if(!t.isDone){
+                tr.style.textDecoration="line-through";
+                tr.style.color="grey";
+                tdPrior.style.backgroundColor="grey";
+                tdPrior.innerText="";
+                checkIcon.setAttribute("class", "fas fa-undo-alt");
+                t.isDone=1;
+            }else{
+                tr.style.textDecoration="";
+                tr.style.color="black";
+                tdPrior.style.backgroundColor=determineColour(t.priority);
+                tdPrior.innerText=priorities[t.priority];
+                checkIcon.setAttribute("class", "fas fa-check");
+                t.isDone=0;
+            }
+        };
+        //Only really applies whenever the table is newly build
+        //Resource dump - Exists since a new table item rebuilds the whole table
+        if(t.isDone){
+            tr.style.textDecoration="line-through";
+            tr.style.color="grey";
+            tdPrior.style.backgroundColor="grey";
+            tdPrior.innerText="";
+            checkIcon.setAttribute("class", "fas fa-undo-alt");
+        }else{
+            tr.style.textDecoration="";
+            tr.style.color="black";
+            tdPrior.style.backgroundColor=determineColour(t.priority);
+            tdPrior.innerText=priorities[t.priority];
+            checkIcon.setAttribute("class", "fas fa-check");
+        }
         body.appendChild(tr);
     });
     appendCreateTaskRow(body);
 }
 
 let buildTable = () => {
-    buildSpecificTable(tasklist);
+    buildSpecificTable(backend.getTasks());
+};
+
+function determineColour(priority){
+    switch (priority){
+        case 0: //very low
+            return "#494CA2";
+        case 1: //low
+            return "#6F975C"
+        case 2: //medium
+            return "#D2D462";
+        case 3: //high
+            return "#FF6361";
+        case 4: //very high
+            return "#AF0F19";
+        case 5: //critical
+            return "#930717";
+
+    }
 }
 
-const setUpEditModal = (idx, tableRow) => {
+const setUpEditModal = (task, tableRow) => {
     const modBod = document.getElementById("modBody");
     modBod.innerHTML = "";
     const modBodForm = document.createElement("form");
-    let name, desc;
+    let name, desc, prio;
 
     {
         // Create taskName
@@ -107,15 +157,23 @@ const setUpEditModal = (idx, tableRow) => {
         nameL.setAttribute("for", "editName");
         nameL.innerHTML = "Task:"
 
+
         name = document.createElement("input");
         name.setAttribute("type", "text");
         name.setAttribute("class", "form-control");
         name.setAttribute("id", "editName");
-        name.value = tasklist[idx].name;
+        name.value = task.name;
 
         nameGrp.appendChild(nameL);
         nameGrp.appendChild(name);
         modBodForm.appendChild(nameGrp);
+    }
+    {
+        // Create Priority editor
+        const prioDiv = createPriorityDropDown("editPrioSel", true);
+        prio = prioDiv.childNodes.item(1);
+        prio.selectedIndex = task.priority;
+        modBodForm.appendChild(prioDiv);
     }
     {
         //Create task description
@@ -130,7 +188,7 @@ const setUpEditModal = (idx, tableRow) => {
         desc.setAttribute("class", "form-control");
         desc.setAttribute("id", "editDesc");
         desc.setAttribute("rows", "4");
-        desc.value = tasklist[idx].description;
+        desc.value = task.description;
 
         descGrp.appendChild(descL);
         descGrp.appendChild(desc);
@@ -138,11 +196,14 @@ const setUpEditModal = (idx, tableRow) => {
     }
     const subBtn = document.getElementById("modSubmit");
     subBtn.onclick = () => {
-        tasklist[idx].name = name.value;
-        tasklist[idx].description = desc.value;
+        task.name = name.value;
+        task.description = desc.value;
+        task.priority = prio.selectedIndex;
 
-        tableRow.children.item(1).innerText = tasklist[idx].name;
-        tableRow.children.item(2).innerText = tasklist[idx].description;
+        tableRow.children.item(2).innerText = task.name;
+        tableRow.children.item(3).innerText = task.description;
+        tableRow.children.item(1).innerText = priorities[task.priority];
+        tableRow.children.item(1).style.backgroundColor = determineColour(task.priority);
     }
 
     modBod.appendChild(modBodForm);
@@ -155,6 +216,15 @@ const appendCreateTaskRow = tableBody => {
     th.scope = "row";
     th.innerText = "*new*";
     tr.appendChild(th);
+
+    {
+        const dropdown = createPriorityDropDown("prioSel", false);
+        const tdPrio = document.createElement("td");
+        tdPrio.scope = "row";
+        tdPrio.appendChild(dropdown);
+
+        tr.appendChild(tdPrio);
+    }
 
     {
         const inputName = document.createElement("input");
@@ -194,8 +264,9 @@ const appendCreateTaskRow = tableBody => {
         buttonAdd.onclick = () => {
             const taskName = document.getElementById("inputName").value;
             const taskDescription = document.getElementById("inputDescription").value;
+            const taskPrio = document.getElementById("prioSel").selectedIndex;
 
-            tasklist.push(new task(taskName, taskDescription, 0, 0));
+            backend.createTask(new Task(taskName, taskDescription, 0, taskPrio, 0));
 
             buildTable();
         }
@@ -212,14 +283,34 @@ const appendCreateTaskRow = tableBody => {
     tableBody.appendChild(tr);
 }
 
+const createPriorityDropDown = (id, doLabel) => {
+    const dropdown = document.createElement("div");
+    dropdown.setAttribute("class", "form-group form-inline");
+    if(doLabel) {
+        const lbl = document.createElement("label");
+        lbl.setAttribute("for", "id")
+        lbl.innerText = "Priority:";
+        dropdown.appendChild(lbl);
+    }
+    const dSel = document.createElement("select");
+    dSel.setAttribute("class", "form-control");
+    dSel.setAttribute("id", id);
+    dropdown.appendChild(dSel);
+    priorities.forEach((elem) => {
+        let opt = document.createElement("option");
+        opt.innerText = elem;
+        dSel.appendChild(opt);
+    });
+    dSel.selectedIndex = 0;
+    return dropdown;
+};
+
+//TODO remove idx & arr?
 window.onload = () => {
     let navSearchField = document.getElementById("navsearchform");
     navSearchField.oninput = () => {
         let searchWord = navSearchField.value.toLowerCase();
-        let filteredTaskList = tasklist.filter((val, idx, arr) => {
-            if(searchWord==="") return true;
-            return val.name.toLowerCase().includes(searchWord);
-        });
+        const filteredTaskList = backend.search(searchWord);
         buildSpecificTable(filteredTaskList);
     }
     buildTable();
