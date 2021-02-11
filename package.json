@@ -6,7 +6,7 @@
   "scripts": {
     "start": "browserify script.js -o bundle.js && start index.html",
     "clean": "rm bundle.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/JannikWinter/kms-team6/issues"
   },
-  "homepage": "https://github.com/JannikWinter/kms-team6#readme"
+  "homepage": "https://github.com/JannikWinter/kms-team6#readme",
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  }
 }

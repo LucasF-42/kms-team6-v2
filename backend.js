@@ -15,11 +15,6 @@ const priorities = ["lowest", "low", "medium", "high", "very high", "critical"];
 
 const taskList = [];
 
-taskList.push(new Task("Example0", "Test", 0, 0));
-taskList.push(new Task("Example1", "Test", 0, 0));
-taskList.push(new Task("Example2", "Test", 0, 0));
-taskList.push(new Task("Example3", "Test", 0, 0));
-
 
 module.exports = {
     Task,
@@ -34,7 +29,15 @@ module.exports = {
     },
 
     updateTask: (index, newTask) => {
+        if(index < 0 || index > taskList.length) {
+            // TODO: How to handle that stuff?
+            return false;
+        }
+        if(!(newTask instanceof Task)) {
+            return false;
+        }
         taskList[index] = newTask;
+        return true;
     },
 
     deleteTask: (index) => {
