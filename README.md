@@ -25,7 +25,7 @@ file.
 IOKE allows you to organise tasks in a simple and straightforward manner.
 ![IOKE base website](./media/markdown/base.PNG)
 
-###Create
+### Create
 You can create a new task by adding your data to the bottommost task, marked with number as `*new*`. Add the task
 priority via a dropdown menu, set a name and give your task a description.
 ![IOKE create task](./media/markdown/create.PNG)
@@ -33,19 +33,19 @@ priority via a dropdown menu, set a name and give your task a description.
 When all is set, add the task by clicking the `+` button. Violà, you have created your very first task.
 ![IOKE created task](./media/markdown/new.PNG)
 
-###Edit
+### Edit
 You can edit a created task by pressing the `edit` button, represented by the pen and notepad. This will open an edit
 screen where you can edit the task.
 ![IOKE edit task](./media/markdown/edit.PNG)
 You can change the values there and apply them by pressing the `apply` button, represented by the green check-mark, or 
 dismiss any changes by pressing the `dismiss` button, represented by the red X.
 
-###Delete
+### Delete
 You can delete a created task by pressing the `delete` button, represented by the red trash bin.
 ![IOKE delete task](media/markdown/new.PNG)
 This will permanently remove the task from the list; it cannot be recovered by any means, so be careful.
 
-###Done
+### Done
 You can check a task as done by pressing the `done` button, represented by the green check-mark.
 ![IOKE check task](media/markdown/new.PNG)
 This will grey-out the task and mark it as done.
@@ -53,7 +53,7 @@ This will grey-out the task and mark it as done.
 You can restore the task to an active state by pressing the `restore` button, represented by the green circling arrow.
 This will return the task to it's normal state.
 
-###Search
+### Search
 If you have alot of tasks at hand, you can use the search function to quickly find any task that has not been deleted. 
 For this you can use the `Search` field in the top-right of the IOKE website.
 ![IOKE search task](media/markdown/full.PNG)
