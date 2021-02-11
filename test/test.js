@@ -264,21 +264,24 @@ describe('Backend', function () {
                 for(let task of filteredTasks) {
                     assert.ok(task.name.includes(currentWord));
                 }
-                /*
-                filteredTasks.forEach((t) => {
-                    assert.ok(t.name.includes(currentWord));
-                });
-                 */
             }
         });
         it('searching only refers to the "name" column', function () {
             let searchWords = ["Beschreibung", "description", "9"];
             for(let i = 0; i < searchWords.length; i++) {
-                let filteredTasks = backend.search(searchWords[i]);
+                let currentWord = searchWords[i];
+                let filteredTasks = backend.search(currentWord);
                 if(backend.getTasks().map(t => t.name).map((prev, cur) => cur && prev, true)){
+                    for(let task of filteredTasks) {
+                        assert.ok(task.name.includes(currentWord));
+                    }
+
+                    // TODO: Hounds doesnt like us using searchWords[i] within a declared function!
+                    /*
                     filteredTasks.forEach(t => {
                         assert.ok(t.name.includes(searchWords[i]));
                     });
+                     */
                 } else {
                     assert.strictEqual(filteredTasks.length, 0);
                 }
@@ -287,12 +290,23 @@ describe('Backend', function () {
         it('searching is case-insensitive', function () {
             let searchWords = ["TASK", "AUFGABE", "TaSk", "aufgAbe"];
             for(let i = 0; i < searchWords; i++) {
-                backend.getTasks().forEach(t => assert.notStrictEqual(t.name, searchWords[i], "test setup is wrong!"));
+                // TODO: Hounds doesnt like us using searchWords[i] within a declared function!
+                let taskList = backend.getTasks();
+                for(let task of taskList) {
+                    assert.notStrictEqual(task.name, searchWords[i], "test setup is wrong!");
+                }
+                //backend.getTasks().forEach(t => assert.notStrictEqual(t.name, searchWords[i], "test setup is wrong!"));
                 let filteredTasks = backend.search(searchWords[i]);
                 assert.notStrictEqual(filteredTasks.length, 0);
+                for(let task of filteredTasks) {
+                    assert.strictEqual(task.name.toLowerCase(), searchWords[i].toLowerCase());
+                }
+                /*
                 filteredTasks.forEach(t => {
+                    // TODO: Hounds doesnt like us using searchWords[i] within a declared function!
                     assert.strictEqual(t.name.toLowerCase(), searchWords[i].toLowerCase());
                 });
+                 */
             }
         });
         it('searching does not change the backend-list length', function () {
