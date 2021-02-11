@@ -8,7 +8,7 @@ function checkTaskEquality(task1, task2) {
     let t1Array = Object.values(task1);
     let t2Array = Object.values(task2);
     for(let i = 0; i < Object.keys(task1).length; i++) {
-        if(!(t1Array[i] === t2Array[i])) {
+        if((t1Array[i] !== t2Array[i])) {
             return false;
         }
     }
@@ -37,7 +37,7 @@ describe('Backend', function () {
             assert.strictEqual(task.category, category);
             assert.strictEqual(task.priority, priority);
             assert.strictEqual(task.isDone, isDone);
-        })
+        });
     });
 
     describe('#Task deletion', function () {
@@ -135,7 +135,7 @@ describe('Backend', function () {
             // outer loop so we do an update on ever field
             for(let taskField = 0; taskField < numberOfFieldsInTask; taskField++) {
                 currentField = Object.keys(updatedTasks[0])[taskField];
-                backend.updateTask(idx, updatedTasks[taskField])
+                backend.updateTask(idx, updatedTasks[taskField]);
                 // for each update we have to check the whole list
                 for(let i = 0; i < backend.getTasks().length; i++) {
                     // for each task, we have to check every field.
@@ -260,6 +260,9 @@ describe('Backend', function () {
                 if(i === 3) {
                     assert.strictEqual(filteredTasks.length, 0);
                 }
+                for(let task of filteredTasks) {
+                    assert.ok(task.name.includes(searchWords[i]));
+                }
                 filteredTasks.forEach(t => {
                     assert.ok(t.name.includes(searchWords[i]));
                 });
@@ -316,7 +319,7 @@ describe('Backend', function () {
       assert.strictEqual(testTaskList[0], createTaskTest);
       testTaskList.pop(); //empties the array
       assert.strictEqual(testTaskList.length, 0);
-    })
+    });
     it('creates a task increases the length of the array', function () {
       const createTaskTest = new Task(testName, testDescription, testCategory, testPriority, testIsDone);
       assert.strictEqual(testTaskList.length, 0);
@@ -324,7 +327,7 @@ describe('Backend', function () {
       assert.strictEqual(testTaskList.length, 1);
       testTaskList.pop(); //empties the array
       assert.strictEqual(testTaskList.length, 0);
-    })
+    });
     it('creates several tasks without issue', function (){
       const createTaskTest = new Task(testName, testDescription, testCategory, testPriority, testIsDone);
       const testingThreshold = 500;
@@ -338,14 +341,14 @@ describe('Backend', function () {
         testTaskList.pop(); //empties the array
       }
       assert.strictEqual(testTaskList.length, 0);
-    })
-  })
+    });
+  });
   describe('#getTasks', function () {
     const testTaskList = backend.getTasks();
     it('accesses a list',function () {
       let testTaskListTesterList = [];
       assert.strictEqual(typeof testTaskListTesterList, typeof testTaskList);
-    })
+    });
     it('tasks that are created are a part of the list', function () {
       
       const createTaskTest = new Task(testName, testDescription, testCategory, testPriority, testIsDone);
@@ -353,8 +356,8 @@ describe('Backend', function () {
       assert.strictEqual(testTaskList[0], createTaskTest);
       testTaskList.pop(); //empties the array
       assert.strictEqual(testTaskList.length, 0);
-    })
-  })
+    });
+  });
   describe('#updateTask', function () {
     const testTaskList = backend.getTasks();
     it('updates a task',function () {
@@ -366,7 +369,7 @@ describe('Backend', function () {
       testTaskList[0] = newTaskTest;
       assert.notStrictEqual(testTaskList[0], originalTaskTest);
       assert.strictEqual(testTaskList[0], newTaskTest);
-    })
+    });
 
-  })
+  });
 });
