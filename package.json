@@ -20,5 +20,8 @@
   "homepage": "https://github.com/JannikWinter/kms-team6#readme",
   "devDependencies": {
     "mocha": "^8.2.1"
+  },
+  "dependencies": {
+    "browserify": "^17.0.0"
   }
 }
