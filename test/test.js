@@ -261,9 +261,14 @@ describe('Backend', function () {
                 if(i === 3) {
                     assert.strictEqual(filteredTasks.length, 0);
                 }
-                filteredTasks.forEach(t => {
+                for(let task of filteredTasks) {
+                    assert.ok(task.name.includes(currentWord));
+                }
+                /*
+                filteredTasks.forEach((t) => {
                     assert.ok(t.name.includes(currentWord));
                 });
+                 */
             }
         });
         it('searching only refers to the "name" column', function () {
