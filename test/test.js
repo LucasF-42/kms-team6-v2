@@ -256,15 +256,13 @@ describe('Backend', function () {
         it('searching for a string only returns tasks whose name includes the given string', function () {
             let searchWords = ["1", "task", "Aufgabe", "noMatch", ""];
             for(let i = 0; i < searchWords.length; i++) {
-                let filteredTasks = backend.search(searchWords[i]);
+                let currentWord = searchWords[i];
+                let filteredTasks = backend.search(currentWord);
                 if(i === 3) {
                     assert.strictEqual(filteredTasks.length, 0);
                 }
-                for(let task of filteredTasks) {
-                    assert.ok(task.name.includes(searchWords[i]));
-                }
                 filteredTasks.forEach(t => {
-                    assert.ok(t.name.includes(searchWords[i]));
+                    assert.ok(t.name.includes(currentWord));
                 });
             }
         });
