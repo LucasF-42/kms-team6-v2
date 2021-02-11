@@ -4,10 +4,6 @@ const assert = require('assert');
 const backend = require('../backend');
 const Task = backend.Task;
 
-function returnList(){
-  return testTaskList
-}
-
 function checkTaskEquality(task1, task2) {
     let t1Array = Object.values(task1);
     let t2Array = Object.values(task2);
@@ -20,6 +16,12 @@ function checkTaskEquality(task1, task2) {
 }
 
 describe('Backend', function () {
+    const testName = "Name";
+    const testDescription = "Description";
+    const testCategory = 0;
+    const testPriority = 0;
+    const testIsDone = 0;
+
     describe('#Task.constructor', function () {
         it('creates a task', function () {
             const name = "Name";
@@ -244,6 +246,13 @@ describe('Backend', function () {
             backend.createTask(taskSet[i]);
         }
 
+        after(function () {
+            let backEndLength = backend.getTasks().length;
+            for (let i = 0; i < backEndLength; i++) {
+                backend.getTasks().pop();
+            }
+        });
+
         it('searching for a string only returns tasks whose name includes the given string', function () {
             let searchWords = ["1", "task", "Aufgabe", "noMatch", ""];
             for(let i = 0; i < searchWords.length; i++) {
@@ -335,13 +344,13 @@ describe('Backend', function () {
     const testTaskList = backend.getTasks();
     it('accesses a list',function () {
       let testTaskListTesterList = [];
-      assert.strictEqual(typeof testTaskListTesterList, typeof returnList());
+      assert.strictEqual(typeof testTaskListTesterList, typeof testTaskList);
     })
     it('tasks that are created are a part of the list', function () {
       
       const createTaskTest = new Task(testName, testDescription, testCategory, testPriority, testIsDone);
-      returnList().push(createTaskTest);
-      assert.strictEqual(returnList()[0], createTaskTest);
+      testTaskList.push(createTaskTest);
+      assert.strictEqual(testTaskList[0], createTaskTest);
       testTaskList.pop(); //empties the array
       assert.strictEqual(testTaskList.length, 0);
     })
