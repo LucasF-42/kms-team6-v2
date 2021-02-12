@@ -4,6 +4,7 @@ node_js:
 
 # deployment on github pages
 deploy:
+  edge: true
   provider: pages
   cleanup: false
   github_token: $PAGES_TOKEN
