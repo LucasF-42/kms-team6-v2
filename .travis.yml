@@ -8,4 +8,4 @@ deploy:
   github_token: $TRAVIS_TOKEN
   keep_history: true
   on:
-    branch: main
+    branch: master
