@@ -1,11 +1,12 @@
 language: node_js
-node_js: - 14
+node_js: 
+  - 14
 
 # deployment on github pages
 deploy:
   provider: pages
   skip_cleanup: true
-  github_token: $TRAVIS_TOKEN
+  github_token: TRAVIS_TOKEN
   keep_history: true
   on:
     branch: master
