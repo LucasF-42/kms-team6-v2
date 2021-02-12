@@ -5,8 +5,8 @@ node_js:
 # deployment on github pages
 deploy:
   provider: pages
-  skip_cleanup: true
-  github_token: $TRAVIS_TOKEN
+  cleanup: false
+  github_token: $PAGES_TOKEN
   keep_history: true
   on:
     branch: master
