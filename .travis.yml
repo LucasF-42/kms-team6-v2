@@ -1,0 +1,13 @@
+language: node_js
+node_js: 
+  - 14
+
+# deployment on github pages
+deploy:
+  edge: true
+  provider: pages
+  cleanup: false
+  github_token: $PAGES_TOKEN
+  keep_history: true
+  on:
+    branch: master

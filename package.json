@@ -1,0 +1,27 @@
+{
+  "name": "todo-liste",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "browserify script.js -o bundle.js && start index.html",
+    "clean": "rm bundle.js",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JannikWinter/kms-team6.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JannikWinter/kms-team6/issues"
+  },
+  "homepage": "https://github.com/JannikWinter/kms-team6#readme",
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  },
+  "dependencies": {
+    "browserify": "^17.0.0"
+  }
+}
