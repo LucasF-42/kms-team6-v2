@@ -2,6 +2,27 @@ language: node_js
 node_js: 
   - 14
 
+addons:
+  chrome: stable
+  apt:
+    packages:
+      - libgconf-2-4
+
+cache:
+  npm: true
+  directories:
+    - ~/.npm
+    - ./node_modules
+    - ~/.cache
+  override:
+    - npm ci
+    - npm run 'cypress verify'
+
+install:
+  - npm ci
+script:
+  - $(npm bin)/cypress run --record
+
 # deployment on github pages
 deploy:
   edge: true
