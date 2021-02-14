@@ -4,9 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "browserify script.js -o bundle.js && start index.html",
+    "start": "npm run build && npm run open",
+    "serve": "npm run build && http-server -a localhost -p 1234",
+    "build-clean": "rm bundle.js && npm run build",
+    "build": "browserify script.js -o bundle.js",
+    "open": "concurrently \"http-server -a localhost -p 1234 -o\"",
     "clean": "rm bundle.js",
-    "test": "mocha"
+    "test": "mocha",
+    "cy:setup": "npm run serve & wait-on http://localhost:1234"
   },
   "repository": {
     "type": "git",
@@ -19,7 +24,11 @@
   },
   "homepage": "https://github.com/JannikWinter/kms-team6#readme",
   "devDependencies": {
-    "mocha": "^8.2.1"
+    "concurrently": "^5.3.0",
+    "cypress": "^6.4.0",
+    "http-server": "^0.12.3",
+    "mocha": "^8.2.1",
+    "wait-on": "^5.2.1"
   },
   "dependencies": {
     "browserify": "^17.0.0"
