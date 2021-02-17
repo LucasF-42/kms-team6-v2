@@ -14,14 +14,13 @@ cache:
     - ~/.npm
     - ./node_modules
     - ~/.cache
-  override:
-    - npm ci
-    - npm run 'cypress verify'
 
 install:
   - npm ci
+  - npm run build
 script:
-  - $(npm bin)/cypress run --record
+  - npm test
+#  - $(npm bin)/cypress run --record
 
 # deployment on github pages
 deploy:

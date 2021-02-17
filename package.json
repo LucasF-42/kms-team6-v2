@@ -4,11 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run build && npm run open",
     "build-clean": "rm bundle.js && npm run build",
     "build": "browserify script.js -o bundle.js",
+    "ci": "browserify script.js -o bundle.js",
+
+    "start": "npm run build && npm run open",
     "open": "http-server -a localhost -p 8080 -o",
     "clean": "rm bundle.js",
+
     "test": "mocha && npm run cy:test",
     "cy:test": "start-server-and-test \"http-server -c-1 -s\" 8080 \"cypress run\""
   },
