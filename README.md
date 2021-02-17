@@ -1,3 +1,4 @@
+![Ioke](./media/createdIcons/ioke.png)
 # IOKE
 
 IOKE is a simple html & javascript based note and planning app. It allows the user to create tasks, sort them by 
