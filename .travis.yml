@@ -23,6 +23,8 @@ script:
 #  - $(npm bin)/cypress run --record
 
 # deployment on github pages
+before_deploy:
+  npm run build
 deploy:
   edge: true
   provider: pages
