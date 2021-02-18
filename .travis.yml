@@ -24,7 +24,9 @@ script:
 
 # deployment on github pages
 before_deploy:
-  npm run build
+  - echo "/node_modules/
+  /.idea/" > ./.gitignore
+  - npm run build
 deploy:
   edge: true
   provider: pages
