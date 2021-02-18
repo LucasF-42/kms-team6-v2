@@ -24,7 +24,8 @@ script:
 
 # deployment on github pages
 before_deploy:
-  npm run build
+  - cat ./deploymentIgnore > ./.gitignore
+  - npm run build
 deploy:
   edge: true
   provider: pages
