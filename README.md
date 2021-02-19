@@ -1,25 +1,26 @@
 ![Ioke](./media/createdIcons/ioke.png)
+
 # IOKE
 
-IOKE is a simple html & javascript based note and planning app. It allows the user to create tasks, sort them by 
-priority and delete them. IOKE **does not** have any persistency; close the site or refresh it and your data will be gone.
+IOKE is a simple html & javascript based note and planning app. It allows the user to create tasks, sort them by priority and delete them. IOKE **does not** have any persistency; close the site or refresh it and your data will be gone.  
+The current master-branch has been deployed via [Github-pages](https://lucasf-42.github.io/kms-team6-v2/).  
+More information on IOKE can be found in the projects wiki.
 
 ## Why Ioke?
 
-Ioke is the greek godess of onslaught, battle-tumult, pursuit and rout. This app is supposed to drive you towards your 
-set goals and have you take note of whatever you deem fit.
+Ioke is the greek godess of onslaught, battle-tumult, pursuit and rout. This app is supposed to drive you towards your set goals and have you take note of whatever you deem fit.
 
 IOKE was created for the THM computer science course KMS as a simple application to try out several development theories.
 
 ## Prerequisites
 
-IOKE requires [browserify 17.0.0 or newer](http://browserify.org/) as well as a modern web browser to function properly.
-
+IOKE requires [browserify 17.0.0 or newer](http://browserify.org/) as well as a modern web browser to be run manually. However, `npm` can also be used to build/run IOKE.
 
 ## Installation
 
-After meeting the prerequisites there is no need to install anything. IOKE itself can be opened with the `index.html` 
-file.
+After meeting the prerequisites IOKE can be built via the command `browserify scripts/script.js -o ./scripts/bundle.js`. It can be opened with the `index.html` 
+file.  
+Alernatively, using `npm`, it can be assembled and run via calling `npm run` from the projects root directory.
 
 ## How to use IOKE
 
