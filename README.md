@@ -1,6 +1,6 @@
 ![Ioke](./media/createdIcons/ioke.png)
 
-# IOKE
+# IOKE [![Build Status](https://travis-ci.com/LucasF-42/kms-team6-v2.svg?branch=master)](https://travis-ci.com/LucasF-42/kms-team6-v2)
 
 IOKE is a simple html & javascript based note and planning app. It allows the user to create tasks, sort them by priority and delete them. IOKE **does not** have any persistency; close the site or refresh it and your data will be gone.  
 The current master-branch has been deployed via [Github-pages](https://lucasf-42.github.io/kms-team6-v2/).  
