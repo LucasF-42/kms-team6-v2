@@ -1,7 +1,7 @@
 'esversion: 6';
 
 const assert = require('assert');
-const backend = require('../backend');
+const backend = require('../scripts/backend');
 const Task = backend.Task;
 
 function checkTaskEquality(task1, task2) {
