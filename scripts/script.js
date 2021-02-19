@@ -89,6 +89,7 @@ const buildSpecificTable = (table) => {
                 tr.style.color="grey";
                 tdPrior.style.backgroundColor="grey";
                 tdPrior.innerText="";
+                tdCheck.setAttribute("class", "btn btn-info");
                 checkIcon.setAttribute("class", "fas fa-undo-alt");
                 t.isDone=1;
             }else{
@@ -96,6 +97,7 @@ const buildSpecificTable = (table) => {
                 tr.style.color="black";
                 tdPrior.style.backgroundColor=determineColour(t.priority);
                 tdPrior.innerText=priorities[t.priority];
+                tdCheck.setAttribute("class", "btn btn-success");
                 checkIcon.setAttribute("class", "fas fa-check");
                 t.isDone=0;
             }
@@ -261,6 +263,7 @@ const appendCreateTaskRow = tableBody => {
         const buttonAdd = document.createElement("button");
         buttonAdd.type = "button";
         buttonAdd.classList.add("btn", "btn-primary", "mr-4");
+        buttonAdd.id = "createSubmit";
         buttonAdd.onclick = () => {
             const taskName = document.getElementById("inputName").value;
             const taskDescription = document.getElementById("inputDescription").value;

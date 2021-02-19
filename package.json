@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build-clean": "rm bundle.js && npm run build",
-    "build": "browserify script.js -o bundle.js",
-    "ci": "browserify script.js -o bundle.js",
+    "build-clean": "rm scripts/bundle.js && npm run build",
+    "build": "browserify scripts/script.js -o ./scripts/bundle.js",
+    "ci": "browserify scripts/script.js -o ./scripts/bundle.js",
 
     "start": "npm run build && npm run open",
     "open": "http-server -a localhost -p 8080 -o",
-    "clean": "rm bundle.js",
+    "clean": "rm scripts/bundle.js",
 
     "test": "mocha && npm run cy:test",
-    "cy:test": "start-server-and-test \"http-server -c-1 -s\" 8080 \"cypress run\""
+    "cy:test": "start-server-and-test \"http-server -c-1 -s\" 8080 \"cypress run\"",
+    "cyopen": "start-server-and-test \"http-server -c-1 -s\" 8080 \"cypress open\""
   },
   "repository": {
     "type": "git",
